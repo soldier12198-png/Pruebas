@@ -2,9 +2,11 @@
 
 <details>
 <summary><h3>TAREAS</h3></summary>
-
-- Tarea #997
-- Tarea #995
-- Tarea #994
-
+<details>
+<summary>- Tarea #997</sumary>
+</details>
+<summary>- Tarea #995</sumary>
+</details>
+<summary>- Tarea #994</sumary>
+</details>
 </details>
