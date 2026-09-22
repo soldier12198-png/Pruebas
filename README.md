@@ -1,7 +1,7 @@
 # Pruebas
 
 <details>
-<summary># **TAREAS**</summary>
+<summary><h3>TAREAS</h3></summary>
 
 - Tarea #997
 - Tarea #995
