@@ -1,7 +1,7 @@
 # Pruebas
 
-<**TAREAS**>
-
+<details>
+<summary>**TAREAS**</summary>
 # **Tarea #997 Realizar la siguiente practica en la terminal de su maquina virtual con Linux**
 
 1. cd /
@@ -37,4 +37,4 @@
 
 # **Tarea #994 Instalar Virtualbox y alguna distribucion de Linux, tomar screenshot del sistema ya instalado y subir la captura a su repositorio de tareas como evidencia.**
 - Soy la imagen
-</**TAREAS**> 
+</details>
