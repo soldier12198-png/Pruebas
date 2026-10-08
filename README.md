@@ -110,7 +110,9 @@
 <details>
 <summary>Nivel 11</summary>
 
-- 
+- ls
+- cat data.txt
+- cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
 
 </details>
 
