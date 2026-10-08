@@ -68,21 +68,25 @@
 <details>
 <summary>Nivel 6</summary>
 
-- 
+- ls -a
+- find / -user bandit7 -group bandit6 -size 33c
+- cat /var/lib/dpkg/info/bandit7.password
 
 </details>
 
 <details>
 <summary>Nivel 7</summary>
 
-- 
+- ls
+- cat | data.txt grep "millionth"
 
 </details>
 
 <details>
 <summary>Nivel 8</summary>
 
-- 
+- ls
+- sort data.txt | uniq -u
 
 </details>
 
