@@ -119,7 +119,43 @@
 <details>
 <summary>Nivel 12</summary>
 
-- 
+- ls
+- cat data.txt
+- mkdir /tmp/fabot
+- cp data.txt /tmp/fabot
+- cd /tmp/fabot
+- xxd -r
+- xxd -r data.txt > data_original
+- ls
+- file data_original
+- mv data_original data.gz
+- ls
+- gunzip data.gz
+- ls
+- file data
+- bzip2 -d data
+- ls
+- file data.out
+- mv data.out data.gz
+- ls
+- gunzip data.gz
+- ls
+- file data.out 
+- tar -xvf data
+- ls
+- file data5.bin 
+- tar -xvf data5.bin
+- file data6.bin
+- bzip2 -d data6.bin
+- ls
+- file data6.bin.out
+- tar -xvf data6.bin.out
+- file data8.bin
+- mv data8.bin data8.gz
+- gunzip data8.gz
+- ls
+- file data8
+- cat data8
 
 </details>
 
