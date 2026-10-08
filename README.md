@@ -47,7 +47,11 @@
 <details>
 <summary>Nivel 4</summary>
 
-- 
+- ls
+- cd inhere
+- ls -l
+- file ./*
+- cat "./-file07"
 
 </details>
 
