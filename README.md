@@ -93,6 +93,7 @@
 <details>
 <summary>Nivel 9</summary>
 
+- ls
 - 
 
 </details>
@@ -100,7 +101,9 @@
 <details>
 <summary>Nivel 10</summary>
 
-- 
+- ls
+- cat data.txt
+- base64 -d data.txt
 
 </details>
 
