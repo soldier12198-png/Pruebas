@@ -10,11 +10,13 @@ ME LA SÚPER PELAN TODOS ALV
 
 # **Realizar los ejercicios de bandit en overthewire**
 
-1. <details>
+<details>
 <summary>Nivel 1</summary>
 
 ls
 cat readme
+
+</details>
 
 </details>
 
