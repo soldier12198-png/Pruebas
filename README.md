@@ -58,7 +58,10 @@
 <details>
 <summary>Nivel 5</summary>
 
-- 
+- ls 
+- cd inhere
+- find . -type f -size  1033c ! -executable
+- cat ./maybehere07/.file2
 
 </details>
 
