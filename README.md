@@ -13,8 +13,8 @@ ME LA SÚPER PELAN TODOS ALV
 <details>
 <summary>Nivel 1</summary>
 
-ls
-\ncat readme
+- ls
+- cat readme
 
 </details>
 
