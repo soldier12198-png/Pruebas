@@ -14,7 +14,7 @@ ME LA SÚPER PELAN TODOS ALV
 <summary>Nivel 1</summary>
 
 ls
-cat readme
+\ncat readme
 
 </details>
 
