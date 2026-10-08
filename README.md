@@ -11,7 +11,7 @@
 # **Realizar los ejercicios de bandit en overthewire**
 
 <details>
-<summary>Nivel 1</summary>
+<summary>Nivel 0</summary>
 
 - ls
 - cat readme
@@ -19,16 +19,28 @@
 </details>
 
 <details>
+<summary>Nivel 1</summary>
+
+- ls
+- cat ./-
+
+</details>
+
+<details>
 <summary>Nivel 2</summary>
 
-- 
+- ls
+- cat "./--spaces in this filename--"
 
 </details>
 
 <details>
 <summary>Nivel 3</summary>
 
-- 
+- ls
+- cd inhere
+- ls -a
+- cat ...Hiding-From-You
 
 </details>
 
