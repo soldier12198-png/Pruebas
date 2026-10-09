@@ -94,7 +94,7 @@
 <summary>Nivel 9</summary>
 
 - ls
-- 
+- string data.txt | greep=
 
 </details>
 
@@ -160,16 +160,14 @@
 </details>
 
 <details>
-<summary>Nivel 13</summary>
+<summary>Nivel 13/Nivel 14</summary>
 
-- 
-
-</details>
-
-<details>
-<summary>Nivel 14</summary>
-
-- 
+- cat sshkey.private
+- scp -P 2220 bandit13@bandit.labs.overthewire.org:sshkey.private $HOME\llave14
+- icacls $HOME\llave14 /inheritance:r
+- icacls $HOME\llave14 /grant:r "${env:USERNAME}:R"
+- ssh -i $HOME\llave14 bandit14@bandit.labs.overthewire.org -p 2220
+- cat /etc/bandit_pass/bandit14
 
 </details>
 
