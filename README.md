@@ -162,12 +162,31 @@
 <details>
 <summary>Nivel 13/Nivel 14</summary>
 
+**LINUX TERMINAL** 
+
+- ls
 - cat sshkey.private
-- scp -P 2220 bandit13@bandit.labs.overthewire.org:sshkey.private $HOME\llave14
-- icacls $HOME\llave14 /inheritance:r
-- icacls $HOME\llave14 /grant:r "${env:USERNAME}:R"
-- ssh -i $HOME\llave14 bandit14@bandit.labs.overthewire.org -p 2220
+- exit
+- echo "-----BEGIN OPENSSH PRIVATE KEY-----
+(...)
+-----END OPENSSH PRIVATE KEY-----" > private.key
+- cat private.key 
+- ls -la
+- chmod 700 private.key
+- ssh bandit14@bandit.labs.overthewire.org -p 2220 -i private.key
 - cat /etc/bandit_pass/bandit14
+- Así nos da la contraseña "aaWecNkG4FhxJQxz07uiwzVP6bJiYS65"
+
+</details>
+
+<details>
+<summary>Nivel 14</summary>
+
+**LINUX TERMINAL** 
+
+- man nc
+- nc localhost 30000
+- aaWecNkG4FhxJQxz07uiwzVP6bJiYS65
 
 </details>
 
