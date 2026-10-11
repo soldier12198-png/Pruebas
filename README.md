@@ -193,63 +193,81 @@
 <details>
 <summary>Nivel 15</summary>
 
-- 
+- man s_client
+- openssl s_client -connect localhost:30001
+- pbLYuZtTg4MgaqfJx8jbA9gKKGqM68A7
+- Así nos da la contraseña "akS0Hf0u5HiXFwKMKFqXvPdOTNGGa0X8V"
 
 </details>
 
 <details>
 <summary>Nivel 16</summary>
 
-- 
+- nmap -p 31000-32000 localhost
+- echo "kS0Hf0u5HiXFwKMKFqXvPdOTNGGa0X8V" | openssl s_client -connect localhost:31790 -quiet
+- nano /tmp/private.key
+- scp -P 2220 bandit16@bandit.labs.overthewire.org:/tmp/private.hey .
+- chmod 600 private.key
+- ssh -i private.key bandit17@bandit.labs.overthewire.org -p 2220
 
 </details>
 
 <details>
-<summary>Nivel 17</summary>
+<summary>Nivel 17/18</summary>
 
-- 
-
-</details>
-
-<details>
-<summary>Nivel 18</summary>
-
-- 
+- ls -l
+- diff passwords.old passwords.new
+- ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"
 
 </details>
 
 <details>
 <summary>Nivel 19</summary>
 
-- 
+- ls -l
+- ./bandit20-do cat /etc/bandit_pass/bandit20
 
 </details>
 
 <details>
 <summary>Nivel 20</summary>
 
-- 
+- echo "0qXahG8ZjOVMN9Ghs7i0WsCfZyXOUbYO" | nc -lp 1234
+- ./suconnect 1234
 
 </details>
 
 <details>
 <summary>Nivel 21</summary>
 
-- 
+- ls /etc/cron.d
+- cat /etc/cron . d/cronjob_bandit22
+- cat /usr/bin/cronjob_bandit22.sh
+- cat /tmp/t706lds9S0RqQh9aMcz6ShpAoZKF7fgv
 
 </details>
 
 <details>
 <summary>Nivel 22</summary>
 
-- 
+- cat /etc/cron. d/cronjob_bandit23
+- cat /usr/bin/cronjob_b
+- cat /usr/bin/cronjob_bandit
+- echo I am user bandit23 | md5sum | cut -d ' ' -f 1
 
 </details>
 
 <details>
 <summary>Nivel 23</summary>
 
-- 
+- cat /usr/bin/cronjob_bandit24.sh
+- mkdir /tmp/jaki
+- chmod 777 /tmp/jaki
+- cd /tmp/jaki
+- nano explotion.sh
+- chmod 777 exploit.sh /var/spool/bandit24/foo
+- ls -l
+- cat passwort.txt
 
 </details>
 
