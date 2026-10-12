@@ -274,63 +274,101 @@
 <details>
 <summary>Nivel 24</summary>
 
-- 
+- for i in {0000 .. 9999}; do echo "gb8KRRCsshuZXI0tUuR6yp OFjiZbf3G8 $i"; done | nc localhost 30002 | grep -v "Wrong"
 
 </details>
 
 <details>
-<summary>Nivel 25</summary>
+<summary>Nivel 25/26</summary>
 
-- 
-
-</details>
-
-<details>
-<summary>Nivel 26</summary>
-
-- 
+- ls
+- cat /etc/bandit_pass/bandit25
+- :set shell=/bin/bash
+- cat /et c/bandit_pass/bandit26 
+- ls -l
 
 </details>
 
 <details>
 <summary>Nivel 27</summary>
 
-- 
+- ls 
+- mkdir /tmp/bandit27_certa
+- cd /tmp/bandit27_certa
+- git clone ssh://bandit27-git@localhost:2220/home/bandit27-git/repo
+- cd repo
+- cat README 
 
 </details>
 
 <details>
 <summary>Nivel 28</summary>
 
-- 
+- cd /tmp
+- mkdir bandit28_28
+- cd bandit28_28
+- git clone ssh://bandit28-git@localhost:2220/home/bandit28-git/repo
+- cat README.md
+- git log
+- git checkout fb0df1358b1ff146f581651a84bae622353a71c0
+- cat README.md
 
 </details>
 
 <details>
 <summary>Nivel 29</summary>
 
-- 
+- mkdir -p /tmp/mi_repo  # -p evita errores si ya existe
+- cd /tmp/mi_repo
+- bandit29@bandit:/tmp/mi_repo$ git clone ssh://bandit29-git@localhost:2220/home/bandit29-git/repo
+- bandit29@bandit:/tmp/mi_repo$ cd repo
+- bandit29@bandit:/tmp/mi_repo/repo$ ls
+- README.md
+- bandit29@bandit:/tmp/mi_repo/repo$ git log
+- bandit29@bandit:/tmp/mi_repo/repo$ git branch -a
+- bandit29@bandit:/tmp/mi_repo/repo$ git checkout dev
+- bandit29@bandit:/tmp/mi_repo/repo$ cat README.md
 
 </details>
 
 <details>
 <summary>Nivel 30</summary>
 
-- 
+- mkdir /tmp/bandit30_31
+- cd /tmp/bandit30_31
+- git clone ssh://bandit30-git@localhost:2220/home/bandit30-git/repo
+- cd repo
+- ls
+- git log
+- git branch -a
+- git tag
+- git show secret
 
 </details>
 
 <details>
 <summary>Nivel 31</summary>
 
-- 
+- git clone ssh://bandit31-git@localhost:2220/home/bandit31-git/repo
+- ls -a
+- cat .gitignore
+- echo "'May I come in?'" > key.txt
+- git add -f key.txt
+- git commit -m "Added key.txt"
+- git push origin master
 
 </details>
 
 <details>
 <summary>Nivel 32</summary>
 
-- 
+- >> id
+- sh: 1: ID: Permission denied
+- >> $0
+- $ id
+- uid=11033(bandit33) gid=11032(bandit32) groups=11032(bandit32)
+- $ cat /etc/bandit_pass/bandit33
+- tQdtbs5D5i2vJwkO8mEyYEyTL8izoeJ0
 
 </details>
 
