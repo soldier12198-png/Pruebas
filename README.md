@@ -94,184 +94,280 @@
 <details>
 <summary>Script 6</summary>
 
-- ls -a
-- find / -user bandit7 -group bandit6 -size 33c
-- cat /var/lib/dpkg/info/bandit7.password
+- VALOR1=23
+- VALOR2=45
+- RESULTADO=`expr ${VALOR1} + ${VALOR2}`
+- echo "Resultado: ${RESULTADO}"
+- RESULTADO=`expr ${VALOR1} + ${VALOR2} + 3`
+- echo "Resultado: ${RESULTADO}"
+- VALOR1=5
+- VALOR2=4
+- echo "${VALOR1} y ${VALOR2}"
+- RESULTADO=$[${VALOR1} + ${VALOR2} + 2]
+- echo "Ahora: ${VALOR1} + ${VALOR2} + 2 = ${RESULTADO}"
+- RESULTADO=$[${VALOR1} + $[${VALOR2} * 3]]
+- echo "Ahora: ${VALOR1} + ${VALOR2} * 3 = ${RESULTADO}"
+- RESULTADO=$(( VALOR1 * VALOR2 ))
+- echo "Con \$(( )): ${VALOR1} * ${VALOR2} = ${RESULTADO}"
+- echo "Resto: 17 % 5 = $(( 17 % 5 ))"
+- echo "Potencia: 2 ** 10 = $(( 2 ** 10 ))"
+
 
 </details>
 
 <details>
 <summary>Script 7</summary>
 
-- ls
-- cat | data.txt grep "millionth"
+- booleano=true
+- $booleano && echo "OK" || echo "no es true"
+- if ! $booleano; then otrobool=true; else otrobool=false; fi
+- $otrobool || echo "Ahora es falso"
+- valor=6
+- test $valor -le 6 && echo "Se cumple"
+- nuevo=${valor}
+- test ${nuevo} -eq ${valor} && echo "Son lo mismo"
+- echo "Ahora ${nuevo} es lo mismo que ${valor}"
 
 </details>
 
 <details>
 <summary>Script 8</summary>
 
-- ls
-- sort data.txt | uniq -u
+- VARIABLE=45
+-  if [ ${VARIABLE} -gt 0 ]; then
+-     echo "${VARIABLE} es mayor que 0"
+- fi
+- if [ -e /etc/shadow ]
+- then
+-     echo "OK, parece que tienes un sistema con shadow pass"
+- fi
+- OTRA=-23
+- if [ ${OTRA} -lt 0 ]
+- then
+-     echo "${OTRA} es menor que 0"
+- else
+-     echo "${OTRA} es mayor que 0"
+- fi
+- echo -n "Mete un valor: "
+- read VALOR1
+- echo -n "Mete otro valor: "
+- read VALOR2
+- echo "Has introducido los valores ${VALOR1} y ${VALOR2}"
+- if [ "${VALOR1}" -gt "${VALOR2}" ]
+- then
+-     echo "${VALOR1} es mayor que ${VALOR2}"
+- elif [ "${VALOR1}" -lt "${VALOR2}" ]
+- then
+-     echo "${VALOR1} es menor que ${VALOR2}"
+- else
+-     echo "${VALOR1} y ${VALOR2} son iguales"
+- fi
+- test -f './fichero.txt' || touch fichero.txt
+- test -f './fichero.txt' && echo "El fichero fichero.txt existe"
 
 </details>
 
 <details>
 <summary>Script 9</summary>
 
-- ls
-- string data.txt | greep=
+- if [ $# -eq 0 ]
+- then
+-     echo "Uso: $0 fichero"
+-     exit 1
+- fi
+- if [ -e "$1" ] && [ -f "$1" ]
+- then
+-     echo "OK, el fichero existe"
+- else
+-     echo "NO existe"
+- fi
+- if [ ! -e "$1" ]
+- then
+-     echo "No existe"
+- fi
 
 </details>
 
 <details>
 <summary>Script 10</summary>
 
-- ls
-- cat data.txt
-- base64 -d data.txt
+- NOMBRE=""
+- echo -n "Dame un nombre: "
+- read NOMBRE
+- case ${NOMBRE} in
+-    iñigo)
+-        echo "${NOMBRE} dice: me dedico a Navarrux"
+-        ;;
+-    sten)
+-        echo "${NOMBRE} dice: tengo un blog friki"
+-        ;;
+-    asier)
+-        echo "${NOMBRE} dice: .NET me gusta"
+-        ;;
+-    pello)
+-        echo "${NOMBRE} dice: el shell mola"
+-        ;;
+-    *)
+-        echo "A ${NOMBRE} no lo conozco"
+-        ;;
+- esac
 
 </details>
 
 <details>
 <summary>Script 11</summary>
 
-- ls
-- cat data.txt
-- cat data.txt | tr 'A-Za-z' 'N-ZA-Mn-za-m'
+- echo "FOR simple: "
+- for i in a b c d e f g h i
+- do
+-    echo "letra: $i"
+- done
+- NOMBRES="Iñigo Sten Asier Pello Roberto"
+- echo "FOR simple para recorrer una lista: "
+- echo "Participantes en la 4party: "
+- for i in ${NOMBRES}
+- do
+-     echo ${i}
+- done
+- echo "FOR con el resultado de un comando"
+- for i in `cat direcciones.txt`
+- do
+-    echo ${i}
+- done
+- echo "FOR con ficheros"
+- for i in *.sh
+- do
+-    ls -lh ${i}
+- done
+- echo "FOR clásico "
+- for (( cont=0 ; ${cont} < 10 ; cont=`expr $cont + 1` ))
+- do
+-    echo "Ahora valgo> ${cont}"
+- done
 
 </details>
 
 <details>
 <summary>Script 12</summary>
 
-- ls
-- cat data.txt
-- mkdir /tmp/fabot
-- cp data.txt /tmp/fabot
-- cd /tmp/fabot
-- xxd -r
-- xxd -r data.txt > data_original
-- ls
-- file data_original
-- mv data_original data.gz
-- ls
-- gunzip data.gz
-- ls
-- file data
-- bzip2 -d data
-- ls
-- file data.out
-- mv data.out data.gz
-- ls
-- gunzip data.gz
-- ls
-- file data.out 
-- tar -xvf data
-- ls
-- file data5.bin 
-- tar -xvf data5.bin
-- file data6.bin
-- bzip2 -d data6.bin
-- ls
-- file data6.bin.out
-- tar -xvf data6.bin.out
-- file data8.bin
-- mv data8.bin data8.gz
-- gunzip data8.gz
-- ls
-- file data8
-- cat data8
+- echo "WHILE en marcha"
+- cont=0
+- while (test ${cont} -lt 100)
+- do
+-    cont=`expr $cont + 10`
+-    echo "Valor del contador: ${cont}"
+- done
+- echo "Valor final del contador: ${cont}"
 
 </details>
 
 <details>
 <summary>Script 13/Script 14</summary>
 
-**LINUX TERMINAL** 
-
-- ls
-- cat sshkey.private
-- exit
-- echo "-----BEGIN OPENSSH PRIVATE KEY-----
-(...)
------END OPENSSH PRIVATE KEY-----" > private.key
-- cat private.key 
-- ls -la
-- chmod 700 private.key
-- ssh bandit14@bandit.labs.overthewire.org -p 2220 -i private.key
-- cat /etc/bandit_pass/bandit14
-- Así nos da la contraseña "aaWecNkG4FhxJQxz07uiwzVP6bJiYS65"
+-  echo "Estructura until"
+- cont=15
+- until (test ${cont} -lt 0)
+- do
+-     cont=`expr $cont - 1`
+-     echo "Valor del contador: ${cont}"
+- done
+- echo "Valor final del contador: ${cont}"
 
 </details>
 
 <details>
 <summary>Script 14</summary>
 
-**LINUX TERMINAL** 
+- echo "Select de distros"
+- DISTROS="Debian Ubuntu Navarrux Gentoo Mandriva"
+- echo "Selecciona la mejor opción por favor: ${resultado}"
+- select resultado in ${DISTROS}
+- do
+-     (test ${#resultado} -ne 0) && break
+-     echo "Selecciona la mejor opción por favor: ${resultado}"
+- done
+- echo "Sistema seleccionado: [${resultado}] longitud de cadena: ${#resultado}"
 
-- man nc
-- nc localhost 30000
-- aaWecNkG4FhxJQxz07uiwzVP6bJiYS65
 
 </details>
 
 <details>
 <summary>Script 15</summary>
 
-- man s_client
-- openssl s_client -connect localhost:30001
-- pbLYuZtTg4MgaqfJx8jbA9gKKGqM68A7
-- Así nos da la contraseña "akS0Hf0u5HiXFwKMKFqXvPdOTNGGa0X8V"
+- RESULTADO=0
+- muestrapantalla () {
+-     echo "Valores: $0> $1 y $2 y $3"
+- }
+- sumame () {
+-     echo "Estamos en la función: ${FUNCNAME}"
+-     echo "Parametros: $1 y $2"
+-     RESULTADO=`expr ${1} + ${2}`
+-     return 0
+- }
+-     echo "No ejecutes esto... "
+-     boom
+- }
+- muestrapantalla 3 4 "epa"
+- sumame 45 67 && echo "OK" || echo "Ocurrió un error"
+- echo "Resultado: ${RESULTADO} $!"
+
 
 </details>
 
 <details>
 <summary>Script 16</summary>
 
-- nmap -p 31000-32000 localhost
-- echo "kS0Hf0u5HiXFwKMKFqXvPdOTNGGa0X8V" | openssl s_client -connect localhost:31790 -quiet
-- nano /tmp/private.key
-- scp -P 2220 bandit16@bandit.labs.overthewire.org:/tmp/private.hey .
-- chmod 600 private.key
-- ssh -i private.key bandit17@bandit.labs.overthewire.org -p 2220
+- source libreria.sh
+- muestrapantalla 69 123 "epa"
+- sumame 1337 3389 && echo "OK" || echo "Ocurrió un error"
+- echo "Resultado: ${RESULTADO} $!"
 
 </details>
 
 <details>
-<summary>Script 17/18</summary>
+<summary>Script 17</summary>
 
-- ls -l
-- diff passwords.old passwords.new
-- ssh bandit18@bandit.labs.overthewire.org -p 2220 "cat readme"
-
-</details>
-
-<details>
-<summary>Script 19</summary>
-
-- ls -l
-- ./bandit20-do cat /etc/bandit_pass/bandit20
-
-</details>
-
-<details>
-<summary>Script 20</summary>
-
-- echo "0qXahG8ZjOVMN9Ghs7i0WsCfZyXOUbYO" | nc -lp 1234
-- ./suconnect 1234
+- lCONTADOR=0
+- funcion () {
+-    CONTADOR=`expr $CONTADOR + 1`
+-    echo "Se ha recibido una señal: ${FUNCNAME} ${0} (van ${CONTADOR})"
+-    if [ ${CONTADOR} -ge 3 ]; then
+-        echo "Tres señales recibidas. Salgo."
+-        exit
+-    fi
+- }
+- rap "funcion" INT QUIT TSTP
+- echo "Mi PID es $$. Pulsa Ctrl-C tres veces para salir"
+- echo "(o desde otra terminal: kill $$)"
+- while true
+- do
+-    sleep 2
+-    echo "ufff qué sueño..."
+- done
 
 </details>
 
 <details>
-<summary>Script 21</summary>
+<summary>Script 18</summary>
 
-- ls /etc/cron.d
-- cat /etc/cron . d/cronjob_bandit22
-- cat /usr/bin/cronjob_bandit22.sh
-- cat /tmp/t706lds9S0RqQh9aMcz6ShpAoZKF7fgv
+- echo -e "\033[40m\033[37m Blanco \033[0m"
+- echo -e "\033[40m\033[1;37m Gris claro \033[0m"
+- echo -e "\033[40m\033[30m Negro \033[0m (esto es negro)"
+- echo -e "\033[40m\033[1;30m Gris \033[0m"
+- echo -e "\033[40m\033[31m Rojo \033[0m"
+- echo -e "\033[40m\033[1;31m Rojo claro \033[0m"
+- echo -e "\033[40m\033[32m Verde \033[0m"
+- echo -e "\033[40m\033[1;32m Verde claro \033[0m"
+- echo -e "\033[40m\033[33m Marrón \033[0m"
+- echo -e "\033[40m\033[1;33m Amarillo \033[0m"
+- echo -e "\033[40m\033[34m Azul \033[0m"
+- echo -e "\033[40m\033[1;34m Azul claro \033[0m"
+- echo -e "\033[40m\033[35m Purpura \033[0m"
+- echo -e "\033[40m\033[1;35m Rosa \033[0m"
+- echo -e "\033[40m\033[36m Cyan \033[0m"
+- echo -e "\033[40m\033[1;36m Cyan claro \033[0m"
+- echo -e "\033[42m\033[31m Navarrux v1.0 \033[0m"
+- echo -e "\033[40m\033[4;33m Amarillo \033[0m"
 
 </details>
 </details>
-
-
