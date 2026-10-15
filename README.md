@@ -160,17 +160,4 @@ Son pares **nombre = valor** que el S.O. guarda para que los programas conozcan 
 En Windows existen tres ámbitos: **sistema** (todos los usuarios, requiere permisos de administrador), **usuario** y **proceso** (solo la ventana actual).
 
 </details>
-
-<details>
-<summary>Referencias</summary>
-
-- Universidad de Granada. [Historia de los sistemas operativos](https://pccito.ugr.es/as/teoria/historia/historia.pdf).
-- Wikipedia. [Núcleo (informática)](https://es.wikipedia.org/wiki/N%C3%BAcleo_(inform%C3%A1tica)).
-- Wikipedia. [Cmd.exe](https://es.wikipedia.org/wiki/Cmd.exe).
-- Wikipedia. [Bash](https://es.wikipedia.org/wiki/Bash).
-- Microsoft Learn. [Windows commands](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands).
-- Microsoft Learn. [What is PowerShell?](https://learn.microsoft.com/en-us/powershell/scripting/overview).
-- Microsoft Learn. [about_Environment_Variables](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_environment_variables).
-
-</details>
 </details>
