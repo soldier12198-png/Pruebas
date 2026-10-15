@@ -262,7 +262,7 @@
 </details>
 
 <details>
-<summary>Script 13/Script 14</summary>
+<summary>Script 13/</summary>
 
 -  echo "Estructura until"
 - cont=15
