@@ -49,7 +49,7 @@ done
 <details>
 <summary>Grabación en asciinema</summary>
 
-[![asciicast](https://asciinema.org/a/TU_ID.svg)](https://asciinema.org/a/TU_ID)
+[![asciicast](https://asciinema.org/a/48Yox1Tq3gvuvj9k.svg)](https://asciinema.org/a/48Yox1Tq3gvuvj9k)
 
 </details>
 </details>
