@@ -127,7 +127,3 @@ docker run -it --rm mi-jail
 ```
 
 </details>
-
-![Captura del reto funcionando](987.png)
-
-</details>
