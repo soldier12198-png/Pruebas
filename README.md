@@ -13,7 +13,7 @@
 <details>
 <summary>GIF: ¿Qué es una manzana?</summary>
 
-![¿Qué es una manzana?](manzana.gif)
+![¿Qué es una manzana?](GIF.gif)
 
 </details>
 
