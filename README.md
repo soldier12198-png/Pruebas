@@ -6,239 +6,313 @@
 </details>
 
 <details>
-<summary>Tarea #981</summary>
+<summary>Tarea #985</summary>
 
-# **Realizar un script en bash que desglose las caracteristicas de un archivo**
+# **Realizar en Python una herramienta que permita interactuar con el modulo "os"**
 
 <details>
-<summary>Código: desglose.sh</summary>
+<summary>Código: herramienta_os.py</summary>
 
-```bash
-#!/bin/bash
-# Tarea #981: script en bash que desglosa las características de un archivo
+```python
+# Tarea #985: herramienta en Python para interactuar con el módulo "os"
 # Autor: Fabrizio Soldi Esparza
 #
-# Uso:
-#   bash desglose.sh archivo [otro_archivo ...]
-# Ejemplos:
-#   bash desglose.sh menu.sh
-#   bash desglose.sh /bin/ls /etc/passwd ~/Downloads
+# Uso: python3 herramienta_os.py
 
-# ---------- Colores (solo si la salida es una terminal) ----------
-if [ -t 1 ]; then
-    VERDE="\033[1;32m"; ROJO="\033[1;31m"; AMARILLO="\033[1;33m"
-    CYAN="\033[1;36m";  NORMAL="\033[0m"
-else
-    VERDE=""; ROJO=""; AMARILLO=""; CYAN=""; NORMAL=""
-fi
+import os
+import stat
+import time
+
 
 # ---------- Funciones de apoyo ----------
-titulo () {
-    echo -e "\n${CYAN}--- $1 ---${NORMAL}"
-}
 
-dato () {
-    # Alinea por número de letras (printf %-28s cuenta bytes y
-    # las letras con acento ocupan 2, así que desalinea)
-    local etiqueta="$1:"
-    local espacios=$(( 30 - ${#etiqueta} ))
-    (( espacios < 1 )) && espacios=1
-    printf "  %s%*s%s\n" "$etiqueta" "$espacios" "" "$2"
-}
+def limpiar_pantalla():
+    # os.name vale 'posix' en Linux/macOS y 'nt' en Windows
+    os.system("clear" if os.name == "posix" else "cls")
 
-si_no () {
-    # Recibe una condición de test y responde "sí" o "no"
-    if test "$@"; then echo "sí"; else echo "no"; fi
-}
 
-fecha () {
-    # Convierte segundos desde 1970 a dd/mm/aaaa hh:mm:ss
-    if [ "$1" -eq 0 ] 2>/dev/null; then
-        echo "no disponible"
-    else
-        date -d "@$1" "+%d/%m/%Y %H:%M:%S"
-    fi
-}
+def pausa():
+    input("\nPresiona Enter para volver al menú...")
 
-tipo_en_espanol () {
-    case "$1" in
-        "regular file")           echo "archivo regular" ;;
-        "regular empty file")     echo "archivo regular (vacío)" ;;
-        "directory")              echo "directorio" ;;
-        "symbolic link")          echo "enlace simbólico" ;;
-        "character special file") echo "dispositivo de caracteres" ;;
-        "block special file")     echo "dispositivo de bloques" ;;
-        "fifo")                   echo "tubería con nombre (FIFO)" ;;
-        "socket")                 echo "socket" ;;
-        *)                        echo "$1" ;;
-    esac
-}
 
-explica_permisos () {
-    # Recibe 3 letras (por ejemplo rw-) y las traduce
-    local p="$1" lista=()
-    [ "${p:0:1}" = "r" ] && lista+=("lectura")
-    [ "${p:1:1}" = "w" ] && lista+=("escritura")
-    case "${p:2:1}" in
-        x|s|t) lista+=("ejecución") ;;
-    esac
-    if [ ${#lista[@]} -eq 0 ]; then
-        echo "${p} (ninguno)"
-    else
-        local texto
-        texto=$(IFS=,; echo "${lista[*]}")
-        echo "${p} (${texto//,/, })"
-    fi
-}
+def tamano_legible(bytes_):
+    unidades = ["B", "KB", "MB", "GB", "TB"]
+    tamano = float(bytes_)
+    for unidad in unidades:
+        if tamano < 1024 or unidad == unidades[-1]:
+            return f"{tamano:.1f} {unidad}" if unidad != "B" else f"{int(tamano)} B"
+        tamano /= 1024
 
-# ---------- Función principal: desglosa un archivo ----------
-desglosar () {
-    local archivo="$1"
 
-    # -L también acepta enlaces simbólicos rotos
-    if [ ! -e "$archivo" ] && [ ! -L "$archivo" ]; then
-        echo -e "\n${ROJO}ERROR: '${archivo}' no existe.${NORMAL}"
-        return 1
-    fi
+def fecha(segundos):
+    return time.strftime("%d/%m/%Y %H:%M:%S", time.localtime(segundos))
 
-    echo -e "\n${VERDE}==================================================${NORMAL}"
-    echo -e "${VERDE} Desglose de: ${archivo}${NORMAL}"
-    echo -e "${VERDE}==================================================${NORMAL}"
 
-    # ----- 1. Nombre y ubicación -----
-    local nombre ruta carpeta sin_punto extension
-    nombre=$(basename -- "$archivo")
-    ruta=$(realpath -s -- "$archivo")
-    carpeta=$(dirname -- "$ruta")
-    sin_punto="${nombre#.}"                  # .bashrc no tiene extensión
-    if [[ "$sin_punto" == *.* ]]; then
-        extension=".${sin_punto##*.}"
-    else
-        extension="(sin extensión)"
-    fi
+def pedir_ruta(mensaje):
+    # expanduser convierte ~ en la carpeta personal
+    return os.path.expanduser(input(mensaje).strip())
 
-    titulo "Nombre y ubicación"
-    dato "Nombre" "$nombre"
-    dato "Extensión" "$extension"
-    dato "Ruta absoluta" "$ruta"
-    dato "Carpeta" "$carpeta"
-    dato "¿Es oculto?" "$(si_no "${nombre:0:1}" = ".")"
 
-    # ----- 2. Tipo -----
-    # LC_ALL=C para que stat y file respondan siempre en inglés
-    # y la traducción de tipo_en_espanol funcione en cualquier idioma
-    local tipo
-    tipo=$(LC_ALL=C stat -c '%F' -- "$archivo")
+def confirmar(mensaje):
+    respuesta = input(f"{mensaje} (s/n): ").strip().lower()
+    return respuesta == "s"
 
-    titulo "Tipo"
-    dato "Tipo de archivo" "$(tipo_en_espanol "$tipo")"
-    dato "Contenido (file)" "$(LC_ALL=C file -b -- "$archivo")"
-    dato "Tipo MIME" "$(file -b --mime-type -- "$archivo")"
-    if [ -L "$archivo" ]; then
-        dato "Apunta a" "$(readlink -- "$archivo")"
-        dato "¿El destino existe?" "$(si_no -e "$archivo")"
-    fi
 
-    # ----- 3. Tamaño -----
-    local bytes bloques tam_bloque
-    bytes=$(stat -c '%s' -- "$archivo")
-    bloques=$(stat -c '%b' -- "$archivo")
-    tam_bloque=$(stat -c '%B' -- "$archivo")
+# ---------- Opciones del menú ----------
 
-    titulo "Tamaño"
-    if [ "$bytes" -ge 1024 ]; then
-        dato "Tamaño" "${bytes} bytes ($(numfmt --to=iec "$bytes"))"
-    else
-        dato "Tamaño" "${bytes} bytes"
-    fi
-    dato "Espacio usado en disco" "$(numfmt --to=iec $(( bloques * tam_bloque ))) (${bloques} bloques de ${tam_bloque} bytes)"
-    if [ -d "$archivo" ] && [ ! -L "$archivo" ]; then
-        dato "Elementos dentro" "$(ls -A -- "$archivo" 2>/dev/null | wc -l)"
-        dato "Tamaño total del contenido" "$(du -sh -- "$archivo" 2>/dev/null | cut -f1)"
-    fi
+def info_sistema():
+    print("=== Información del sistema ===")
+    print(f"Tipo de sistema (os.name):   {os.name}")
+    if hasattr(os, "uname"):
+        datos = os.uname()
+        print(f"Sistema operativo:           {datos.sysname}")
+        print(f"Nombre del equipo:           {datos.nodename}")
+        print(f"Versión del kernel:          {datos.release}")
+        print(f"Arquitectura:                {datos.machine}")
+    print(f"Núcleos de CPU:              {os.cpu_count()}")
+    usuario = os.getenv("USER") or os.getenv("USERNAME")
+    if usuario is None:
+        try:
+            usuario = os.getlogin()
+        except OSError:
+            usuario = "desconocido"
+    print(f"Usuario:                     {usuario}")
+    if hasattr(os, "getuid"):
+        print(f"UID del usuario:             {os.getuid()}")
+    print(f"PID de este programa:        {os.getpid()}")
+    print(f"PID del proceso padre:       {os.getppid()}")
+    print(f"Carpeta personal:            {os.path.expanduser('~')}")
+    print(f"Separador de rutas:          {os.sep}")
 
-    # ----- 4. Permisos -----
-    local simbolicos octal especiales=()
-    simbolicos=$(stat -c '%A' -- "$archivo")
-    octal=$(stat -c '%a' -- "$archivo")
-    if [ ${#octal} -eq 4 ]; then
-        local e=${octal:0:1}
-        (( e & 4 )) && especiales+=("setuid")
-        (( e & 2 )) && especiales+=("setgid")
-        (( e & 1 )) && especiales+=("sticky bit")
-    fi
 
-    titulo "Permisos"
-    dato "Permisos" "${simbolicos} (octal ${octal})"
-    dato "Dueño" "$(explica_permisos "${simbolicos:1:3}")"
-    dato "Grupo" "$(explica_permisos "${simbolicos:4:3}")"
-    dato "Otros" "$(explica_permisos "${simbolicos:7:3}")"
-    if [ ${#especiales[@]} -gt 0 ]; then
-        dato "Permisos especiales" "${especiales[*]}"
-    fi
-    dato "Usuario que consulta" "$(whoami)"
-    dato "¿Puedes leerlo?" "$(si_no -r "$archivo")"
-    dato "¿Puedes modificarlo?" "$(si_no -w "$archivo")"
-    dato "¿Puedes ejecutarlo?" "$(si_no -x "$archivo")"
+def carpeta_actual():
+    print(f"Estás en: {os.getcwd()}")
 
-    # ----- 5. Propietario -----
-    titulo "Propietario"
-    dato "Usuario dueño" "$(stat -c '%U (UID %u)' -- "$archivo")"
-    dato "Grupo dueño" "$(stat -c '%G (GID %g)' -- "$archivo")"
 
-    # ----- 6. Fechas -----
-    titulo "Fechas"
-    dato "Creación" "$(fecha "$(stat -c '%W' -- "$archivo")")"
-    dato "Última modificación" "$(fecha "$(stat -c '%Y' -- "$archivo")")"
-    dato "Último acceso" "$(fecha "$(stat -c '%X' -- "$archivo")")"
-    dato "Último cambio de atributos" "$(fecha "$(stat -c '%Z' -- "$archivo")")"
+def cambiar_carpeta():
+    ruta = pedir_ruta("¿A qué carpeta quieres ir? ")
+    os.chdir(ruta)
+    print(f"Ahora estás en: {os.getcwd()}")
 
-    # ----- 7. Sistema de archivos -----
-    titulo "Sistema de archivos"
-    dato "Inodo" "$(stat -c '%i' -- "$archivo")"
-    dato "Enlaces duros" "$(stat -c '%h' -- "$archivo")"
-    dato "Punto de montaje" "$(stat -c '%m' -- "$archivo" 2>/dev/null)"
-    dato "Tipo de sistema de archivos" "$(df --output=fstype -- "$archivo" 2>/dev/null | tail -n 1 | tr -d ' ')"
 
-    # ----- 8. Contenido (solo archivos de texto) -----
-    if [ -f "$archivo" ] && [ -r "$archivo" ]; then
-        local mime
-        mime=$(file -b --mime-type -- "$archivo")
-        if [[ "$mime" == text/* ]]; then
-            titulo "Contenido (texto)"
-            dato "Líneas" "$(wc -l < "$archivo")"
-            dato "Palabras" "$(wc -w < "$archivo")"
-            dato "Caracteres" "$(wc -m < "$archivo")"
-            dato "Codificación" "$(file -b --mime-encoding -- "$archivo")"
-            dato "Primera línea" "$(head -n 1 -- "$archivo" | cut -c 1-50)"
-        fi
+def listar_carpeta():
+    ruta = pedir_ruta("Carpeta a listar (Enter = la actual): ") or "."
+    elementos = sorted(os.scandir(ruta), key=lambda e: (not e.is_dir(), e.name.lower()))
+    print(f"\nContenido de {os.path.abspath(ruta)}:\n")
+    print(f"{'TIPO':<10}{'TAMAÑO':>10}   NOMBRE")
+    for elemento in elementos:
+        if elemento.is_symlink():
+            tipo = "enlace"
+        elif elemento.is_dir():
+            tipo = "carpeta"
+        else:
+            tipo = "archivo"
+        if elemento.is_file(follow_symlinks=False):
+            tamano = tamano_legible(elemento.stat(follow_symlinks=False).st_size)
+        else:
+            tamano = "-"
+        print(f"{tipo:<10}{tamano:>10}   {elemento.name}")
+    print(f"\nTotal: {len(elementos)} elementos")
 
-        # ----- 9. Huellas digitales -----
-        titulo "Huellas digitales (checksums)"
-        dato "MD5" "$(md5sum -- "$archivo" | cut -d ' ' -f 1)"
-        dato "SHA-256" "$(sha256sum -- "$archivo" | cut -d ' ' -f 1)"
-    fi
-}
 
-# ---------- Programa principal ----------
-if [ $# -eq 0 ] || [ "$1" = "-h" ] || [ "$1" = "--help" ]; then
-    echo "Uso: bash $0 archivo [otro_archivo ...]"
-    echo "Muestra el desglose de las características de cada archivo:"
-    echo "nombre, tipo, tamaño, permisos, propietario, fechas, inodo y contenido."
-    [ $# -eq 0 ] && exit 1 || exit 0
-fi
+def crear_carpeta():
+    ruta = pedir_ruta("Nombre de la carpeta nueva (puede ser a/b/c): ")
+    os.makedirs(ruta)
+    print(f"Carpeta creada: {os.path.abspath(ruta)}")
 
-errores=0
-for archivo in "$@"; do
-    desglosar "$archivo" || errores=$(( errores + 1 ))
-done
-echo
 
-if [ $errores -gt 0 ]; then
-    echo -e "${AMARILLO}${errores} archivo(s) no se pudieron desglosar.${NORMAL}"
-    exit 1
-fi
-exit 0
+def crear_archivo():
+    ruta = pedir_ruta("Nombre del archivo nuevo: ")
+    texto = input("Escribe el texto que tendrá: ")
+    # os.open trabaja a bajo nivel, como las llamadas al sistema de Linux.
+    # O_EXCL hace que falle si el archivo ya existe, para no borrar nada.
+    descriptor = os.open(ruta, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
+    os.write(descriptor, (texto + "\n").encode("utf-8"))
+    os.close(descriptor)
+    print(f"Archivo creado: {os.path.abspath(ruta)}")
+
+
+def leer_archivo():
+    ruta = pedir_ruta("Archivo a leer: ")
+    descriptor = os.open(ruta, os.O_RDONLY)
+    contenido = os.read(descriptor, 4096)      # lee hasta 4 KB
+    os.close(descriptor)
+    print(f"\n--- Contenido de {ruta} (primeros 4 KB) ---")
+    print(contenido.decode("utf-8", errors="replace"))
+
+
+def info_archivo():
+    ruta = pedir_ruta("Archivo o carpeta: ")
+    datos = os.stat(ruta)
+    print(f"\n=== {os.path.abspath(ruta)} ===")
+    if os.path.isdir(ruta):
+        tipo = "carpeta"
+    elif os.path.islink(ruta):
+        tipo = "enlace"
+    else:
+        tipo = "archivo"
+    nombre, extension = os.path.splitext(os.path.basename(ruta))
+    print(f"Tipo:                {tipo}")
+    print(f"Extensión:           {extension or '(sin extensión)'}")
+    print(f"Tamaño:              {datos.st_size} bytes ({tamano_legible(datos.st_size)})")
+    print(f"Permisos:            {stat.filemode(datos.st_mode)} (octal {oct(datos.st_mode & 0o777)[2:]})")
+    print(f"Puedes leer:         {'sí' if os.access(ruta, os.R_OK) else 'no'}")
+    print(f"Puedes escribir:     {'sí' if os.access(ruta, os.W_OK) else 'no'}")
+    print(f"Puedes ejecutar:     {'sí' if os.access(ruta, os.X_OK) else 'no'}")
+    print(f"Dueño (UID/GID):     {datos.st_uid}/{datos.st_gid}")
+    print(f"Inodo:               {datos.st_ino}")
+    print(f"Enlaces duros:       {datos.st_nlink}")
+    print(f"Última modificación: {fecha(datos.st_mtime)}")
+    print(f"Último acceso:       {fecha(datos.st_atime)}")
+
+
+def renombrar():
+    origen = pedir_ruta("Archivo o carpeta a renombrar/mover: ")
+    destino = pedir_ruta("Nuevo nombre o ruta: ")
+    if os.path.exists(destino):
+        print("Ya existe algo con ese nombre; no se hizo nada.")
+        return
+    os.rename(origen, destino)
+    print(f"'{origen}' ahora es '{destino}'")
+
+
+def cambiar_permisos():
+    ruta = pedir_ruta("Archivo o carpeta: ")
+    actual = oct(os.stat(ruta).st_mode & 0o777)[2:]
+    print(f"Permisos actuales: {actual}")
+    nuevos = input("Permisos nuevos en octal (ej. 755, 644): ").strip()
+    os.chmod(ruta, int(nuevos, 8))
+    print(f"Permisos de '{ruta}': {stat.filemode(os.stat(ruta).st_mode)}")
+
+
+def eliminar_archivo():
+    ruta = pedir_ruta("Archivo a eliminar: ")
+    if not os.path.isfile(ruta):
+        print("Eso no es un archivo (o no existe).")
+        return
+    if confirmar(f"¿Seguro que quieres eliminar '{ruta}'?"):
+        os.remove(ruta)
+        print("Archivo eliminado.")
+    else:
+        print("Cancelado.")
+
+
+def eliminar_carpeta():
+    ruta = pedir_ruta("Carpeta VACÍA a eliminar: ")
+    if confirmar(f"¿Seguro que quieres eliminar '{ruta}'?"):
+        os.rmdir(ruta)          # solo borra carpetas vacías
+        print("Carpeta eliminada.")
+    else:
+        print("Cancelado.")
+
+
+def recorrer_arbol():
+    ruta = pedir_ruta("Carpeta a recorrer (Enter = la actual): ") or "."
+    total_archivos = 0
+    total_carpetas = 0
+    for carpeta, subcarpetas, archivos in os.walk(ruta):
+        nivel = carpeta[len(ruta):].count(os.sep)
+        sangria = "    " * nivel
+        print(f"{sangria}{os.path.basename(carpeta) or carpeta}/")
+        for archivo in archivos:
+            print(f"{sangria}    {archivo}")
+        total_carpetas += len(subcarpetas)
+        total_archivos += len(archivos)
+    print(f"\n{total_carpetas} subcarpetas, {total_archivos} archivos")
+
+
+def variables_entorno():
+    nombre = input("Variable a consultar (Enter = ver las principales): ").strip()
+    if nombre:
+        valor = os.getenv(nombre)
+        if valor is None:
+            print(f"La variable {nombre} no existe.")
+        else:
+            print(f"{nombre} = {valor}")
+    else:
+        for variable in ["USER", "HOME", "SHELL", "LANG", "PWD", "PATH"]:
+            print(f"{variable:<6} = {os.environ.get(variable, '(no definida)')}")
+        print(f"\nHay {len(os.environ)} variables de entorno en total.")
+
+
+def ejecutar_comando():
+    comando = input("Comando a ejecutar (ej. ls -l, date, whoami): ").strip()
+    if comando:
+        codigo = os.system(comando)
+        print(f"\nEl comando terminó con código {os.waitstatus_to_exitcode(codigo) if os.name == 'posix' else codigo}")
+
+
+# ---------- Menú principal ----------
+
+OPCIONES = [
+    ("Información del sistema", info_sistema),
+    ("Ver carpeta actual", carpeta_actual),
+    ("Cambiar de carpeta", cambiar_carpeta),
+    ("Listar contenido de una carpeta", listar_carpeta),
+    ("Crear carpeta", crear_carpeta),
+    ("Crear archivo de texto", crear_archivo),
+    ("Leer archivo", leer_archivo),
+    ("Información de un archivo", info_archivo),
+    ("Renombrar o mover", renombrar),
+    ("Cambiar permisos", cambiar_permisos),
+    ("Eliminar archivo", eliminar_archivo),
+    ("Eliminar carpeta vacía", eliminar_carpeta),
+    ("Recorrer árbol de carpetas", recorrer_arbol),
+    ("Variables de entorno", variables_entorno),
+    ("Ejecutar un comando del sistema", ejecutar_comando),
+]
+
+
+def mostrar_menu():
+    limpiar_pantalla()
+    print("=" * 50)
+    print("     HERRAMIENTA PARA EL MÓDULO os DE PYTHON")
+    print("=" * 50)
+    print(f"Carpeta actual: {os.getcwd()}\n")
+    for numero, (texto, _) in enumerate(OPCIONES, start=1):
+        print(f"  {numero:>2}) {texto}")
+    print("   0) Salir")
+    print("=" * 50)
+
+
+def main():
+    while True:
+        mostrar_menu()
+        opcion = input("Elige una opción: ").strip()
+
+        if opcion == "0":
+            print("¡Hasta luego!")
+            break
+        elif opcion.isdigit() and 1 <= int(opcion) <= len(OPCIONES):
+            texto, funcion = OPCIONES[int(opcion) - 1]
+            print(f"\n>>> {texto}\n")
+            try:
+                funcion()
+            except FileNotFoundError:
+                print("Error: no existe ese archivo o carpeta.")
+            except FileExistsError:
+                print("Error: ya existe un archivo o carpeta con ese nombre.")
+            except PermissionError:
+                print("Error: no tienes permiso para hacer eso.")
+            except NotADirectoryError:
+                print("Error: eso no es una carpeta.")
+            except IsADirectoryError:
+                print("Error: eso es una carpeta, no un archivo.")
+            except ValueError:
+                print("Error: el valor que escribiste no es válido.")
+            except OSError as error:
+                print(f"Error del sistema: {error.strerror}")
+        else:
+            print(f"Opción no válida: '{opcion}'. Escribe un número del 0 al {len(OPCIONES)}.")
+
+        pausa()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except (KeyboardInterrupt, EOFError):
+        print("\n¡Hasta luego!")
 ```
 
 </details>
@@ -246,40 +320,45 @@ exit 0
 <details>
 <summary>Cómo ejecutarlo</summary>
 
-- `bash desglose.sh archivo`
-- También acepta varios archivos a la vez: `bash desglose.sh menu.sh /bin/ls /etc/passwd`
-- Sin argumentos muestra cómo se usa y termina con código de salida 1.
+- `python3 herramienta_os.py`
+- Escribir el número de la opción y presionar Enter.
+- Después de cada opción, presionar Enter para volver al menú. La opción 0 sale del programa.
 
 </details>
 
 <details>
-<summary>Qué muestra</summary>
+<summary>Opciones y funciones de os que usa</summary>
 
-- **Nombre y ubicación:** nombre, extensión, ruta absoluta, carpeta y si es oculto.
-- **Tipo:** archivo regular, directorio, enlace simbólico, dispositivo, FIFO o socket; qué contiene según `file` y su tipo MIME. Si es enlace, a dónde apunta y si el destino existe.
-- **Tamaño:** en bytes y legible (K, M, G), y el espacio real que ocupa en disco. En carpetas, cuántos elementos tiene.
-- **Permisos:** en letras y en octal, desglosados para dueño, grupo y otros; permisos especiales (setuid, setgid, sticky bit) y si el usuario actual puede leer, modificar o ejecutar el archivo.
-- **Propietario:** usuario y grupo dueños con su UID y GID.
-- **Fechas:** creación, última modificación, último acceso y último cambio de atributos.
-- **Sistema de archivos:** inodo, enlaces duros, punto de montaje y tipo de sistema de archivos.
-- **Contenido:** en archivos de texto, líneas, palabras, caracteres, codificación y primera línea.
-- **Huellas digitales:** MD5 y SHA-256 del archivo.
+| Opción | Qué hace | Funciones del módulo os |
+|---|---|---|
+| 1 | Información del sistema | `os.name`, `os.uname()`, `os.cpu_count()`, `os.getenv()`, `os.getuid()`, `os.getpid()`, `os.getppid()`, `os.sep` |
+| 2 | Ver carpeta actual | `os.getcwd()` |
+| 3 | Cambiar de carpeta | `os.chdir()` |
+| 4 | Listar una carpeta | `os.scandir()` |
+| 5 | Crear carpeta (también anidadas) | `os.makedirs()` |
+| 6 | Crear archivo de texto | `os.open()`, `os.write()`, `os.close()` |
+| 7 | Leer archivo | `os.open()`, `os.read()`, `os.close()` |
+| 8 | Información de un archivo | `os.stat()`, `os.access()`, `os.path.splitext()` |
+| 9 | Renombrar o mover | `os.rename()`, `os.path.exists()` |
+| 10 | Cambiar permisos | `os.chmod()` |
+| 11 | Eliminar archivo | `os.remove()` |
+| 12 | Eliminar carpeta vacía | `os.rmdir()` |
+| 13 | Recorrer árbol de carpetas | `os.walk()` |
+| 14 | Variables de entorno | `os.environ`, `os.getenv()` |
+| 15 | Ejecutar un comando del sistema | `os.system()` |
 
 </details>
 
 <details>
 <summary>Explicación</summary>
 
-- **stat:** es el comando principal. Con `stat -c` y un formato se saca cada dato por separado: `%s` tamaño, `%A` y `%a` permisos, `%U` dueño, `%i` inodo, `%h` enlaces, `%W %Y %X %Z` fechas en segundos, que la función `fecha` convierte con `date -d @segundos`.
-- **file:** identifica el contenido real del archivo sin importar su extensión.
-- **test:** `-e`, `-L`, `-f`, `-d`, `-r`, `-w`, `-x` revisan si existe, si es enlace, si es archivo o carpeta y qué puede hacer el usuario con él.
-- **Expansión de variables:** `${nombre#.}`, `${sin_punto##*.}` y `${simbolicos:1:3}` recortan cadenas para sacar la extensión y separar los permisos de dueño, grupo y otros.
-- **Funciones:** `titulo`, `dato`, `si_no`, `fecha`, `tipo_en_espanol` y `explica_permisos` evitan repetir código; `desglosar` hace todo el trabajo para un archivo.
-- **for y case:** el `for` recorre todos los archivos recibidos y el `case` traduce el tipo de archivo al español.
-- **LC_ALL=C:** obliga a `stat` y `file` a responder en inglés para que la traducción funcione aunque Ubuntu esté en español.
-- **Código de salida:** termina con 0 si todo salió bien y con 1 si algún archivo no existe.
+- **Menú:** una lista `OPCIONES` guarda el texto y la función de cada opción; el `while True` muestra el menú, lee la opción con `input` y llama a la función que corresponde.
+- **Funciones:** cada opción es una función aparte, así el programa es fácil de leer y de ampliar.
+- **Bajo nivel:** las opciones 6 y 7 usan `os.open`, `os.write` y `os.read`, que trabajan con descriptores de archivo igual que las llamadas al sistema de Linux. `os.O_EXCL` hace que no se sobrescriba un archivo que ya existe.
+- **Permisos:** la opción 10 convierte lo que escribe el usuario (por ejemplo `755`) de octal a número con `int(texto, 8)` y se lo pasa a `os.chmod`.
+- **Seguridad:** antes de eliminar se pide confirmación, y `os.rmdir` solo borra carpetas vacías.
+- **Errores:** `try/except` atrapa `FileNotFoundError`, `FileExistsError`, `PermissionError`, `NotADirectoryError`, `IsADirectoryError` y `ValueError`, y muestra un mensaje claro en lugar de que el programa truene.
 
 </details>
 
 </details>
-
