@@ -8,7 +8,7 @@
 <details>
 <summary>Tarea #986</summary>
 
-# **Grabar un asciinema ejecutando un menu en Bash con opciones para ejecutar los 18 scripts de la tarea 992**
+# **Grabar un asciinema ejecutando un menu en Bash con opciones para ejecutar los 18 scripts de la tarea #992**
 
 <details>
 <summary>Grabación (asciinema)</summary>
